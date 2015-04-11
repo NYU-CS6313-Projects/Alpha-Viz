@@ -1,8 +1,16 @@
-# Project X
+Alpha-Viz
+====
 
-TODO describe project here
+Alpha-Viz is a visualized diagnostic tool of trading strategy based on financial news. It utilized with [Accern Alpha](http://accern.com/)'s dataset and allow investment managers to verify their strategies in a more efficient way by visualization.
 
-A live demo can be found [here](http://NYU-CS6313-Projects.github.io/sp2015-group22/).
+Team member:  
 
-You can use the `deploy.sh` script to keep the `gh-pages` branch up-to-date.
-When forking this project be sure to update the link to the demo page in this file.
+   * Xun Gong  
+   * Doug Steinberg  
+   * Sharon Jiaqian Liu  
+
+Mentored by:  
+
+   * Enrico Bertini  
+   * Anshul Vikram Pandey  
+   * Kumesh Aroomoogan  
