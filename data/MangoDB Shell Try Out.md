@@ -56,10 +56,15 @@ db.alpha_backtest.aggregate([
 {$match:{'entities.name': "Apple Inc."}},
 {$group: {_id:'entities.name', avg_story_sentiment: {$avg:"$story_sentiment"}}}])
 
+// select documents that in certain day of certain company
 
-// select fields and store as JSON file 
+db.alpha_backtest.find({$and:[{harvested_at:{$gte: new ISODate("2012-08-25T00:00:00Z")}}, {harvested_at:{$lt: new ISODate("2012-08-26T00:00:00Z")}}, {'event_impact_score.on_entities.entity': "AAPL"}]}).pretty()
 
-mongoexport -v --db test --collection alpha_backtest --fieldFile ~/Desktop/fields.txt --type csv --out ~/Desktop/1k_sampled.csv
+
+// select fields and store as JSON file, 2014 Year
+// ISODate need to converte to Date
+
+mongoexport -v --db test --collection alpha_backtest --query '{harvested_at:{$gte: new Date(1388552400000), $lt: new Date(1420088400000)}}' --fieldFile ./fields.txt --type csv --out ./year2014.csv
 
 	> ======== what in fields.txt ========
 	> event_impact_score.on_entities.0.entity
@@ -71,11 +76,54 @@ mongoexport -v --db test --collection alpha_backtest --fieldFile ~/Desktop/field
 
 // import csv to mongodb  
 
-mongoimport -d test -c alpha --type csv --file selected_data.csv --headerline -v  
+mongoimport -d test -c year2014 --type csv --file year2014.csv --headerline -v  
 
 
-// select documents that in certain day of certain company
+// aggregate data into company - date - average_article_senti - average_impact_score and save to
+// a new collection in database  
 
-db.alpha_backtest.find({$and:[{harvested_at:{$gte: new ISODate("2012-08-25T00:00:00Z")}}, {harvested_at:{$lt: new ISODate("2012-08-26T00:00:00Z")}}, {'event_impact_score.on_entities.entity': "AAPL"}]}).pretty()
+db.year2014.aggregate(
+[
+  {
+    $project: {
+      _id:0,
+      entity:1,
+      article_sentiment:1,
+      impact_score:1,
+      year: {$substr: ["$harvested_at", 0, 4]},
+      month: {$substr: ["$harvested_at", 5, 2]},
+      day: {$substr: ["$harvested_at", 8, 2]}
+    }   
+  },
+
+  {
+    $group: {
+      _id: {
+        entity: "$entity",
+        year: "$year",
+        month: "$month",
+        day: "$day"  
+      },
+
+      avg_article_sentiment: {
+        $avg: "$article_sentiment"
+      },
+
+      avg_impact_score: {
+        $avg: "$impact_score"
+      }
+    }
+  },
+
+  { $out: "daily_2014" }
+],
+  { allowDiskUse: true }
+)  
+
+
+// export aggregated result to csv file  
+// some data field is NaN or Infinity, need to clean
+
+mongoexport -v --db test --collection daily_2014 --fields _id.year,_id.month,_id.day,_id.entity,avg_article_sentiment,avg_impact_score --type csv --out ./daily_2014.csv
 ```  
 
