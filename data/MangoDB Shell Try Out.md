@@ -59,7 +59,20 @@ db.alpha_backtest.aggregate([
 
 // select fields and store as JSON file 
 
-mongoexport -v --db test --collection alpha_backtest --fields _id,entities,article_sentiment,event_impact_score,harvested_at,story_saturation,story_volume --pretty --out ~/Desktop/sampled.json  
+mongoexport -v --db test --collection alpha_backtest --fieldFile ~/Desktop/fields.txt --type csv --out ~/Desktop/1k_sampled.csv
+
+	> ======== what in fields.txt ========
+	> event_impact_score.on_entities.0.entity
+	> article_sentiment
+	> event_impact_score.on_entities.0.on_entity
+	> harvested_at
+	> ====================================  
+
+
+// import csv to mongodb  
+
+mongoimport -d test -c alpha --type csv --file selected_data.csv --headerline -v  
+
 
 // select documents that in certain day of certain company
 
