@@ -98,7 +98,8 @@ puts data.size
 
 # qurery historical price
 data2 = YahooFinance.historical_quotes("AAPL", { raw: false, period: :daily })
-puts data2.size
-data2.each do |s|
+data3 = YahooFinance.historical_quotes("AAPL", start_date: Time::new(2014,01,01), end_date: Time::new(2014,12,31))
+puts data3.size
+data3.each do |s|
     puts s.symbol + " value is: " + s.close + " -- " + s.trade_date
 end
