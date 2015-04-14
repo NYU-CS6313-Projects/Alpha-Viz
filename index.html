@@ -7,41 +7,14 @@
   <!-- add script tags to include all the .js file -->
   <script src="lib/d3/d3.min.js" charset="utf-8"></script>
   <script src="lib/angular/angular.min.js"></script>
+  <script src="js/alphaViz.js"></script>
   <style>
   /*add custom style css*/
   </style>
 </head>
-<body ng-app="alphaViz">
-  <!-- add div tags to set region -->
-  <script>
-  // your d3.js code
-
-  // configure page layout
-
-  // declare and define var
-  var file = "./data/daily_2014_final.csv"
-  var columns = "date,entity,avgASenti,avgImpSc".split(',')
-  var metricOne = "avgASenti"
-  var metricTwo = "avgImpSc"
-  // use static to prototype; TO-DO: user pick from list
-  var symbol = "AAPL"
-
-  // Angular.js module to hold all the directives
-  var alphaViz = angular.module('alphaViz', [])
-
-  // load data
-  d3.csv(file, function(error, data) {
-    // error check
-    if(error) {
-      console.warn(error);
-      return;
-    }
-    // use data
-    console.log(data)
-  })
-  // perform functions
-
-  </script>
-
+<body ng-app="alphaViz" ng-controller="MainController as alphaViz">
+  <input type="text" ng-model="entity">
+  <button ng-click="customEntity(entity)">Confirm</button>
+  <p>Now we are checking: {{entity}}!</p>
 </body>
 </html>
