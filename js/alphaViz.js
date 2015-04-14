@@ -19,6 +19,7 @@ angular.module('alphaViz', [])
     $scope.data = data
     $scope.$apply();
     // Access -> data[index]."fieldName"
+    console.log(data[0])
   })
 
 })
