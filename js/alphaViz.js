@@ -1,9 +1,17 @@
+// Task: 1 - load data from .csv
+//       2 - set $scope.entity
+//       3 - set $scope.allData (contain all the info in csv)
+//       4 - set $scope.entityData (filtered data: only data of 1 entity)
+//       5 - set $scope.entityList (list contains distinct entity name, for later use)
+
 angular.module('alphaViz', [])
 .controller('MainController', function($scope){
   // config
   var file = "./data/daily_2014_final.csv"
+
   // user entered entity
   $scope.entity = 'AAPL' // by default in input box
+  // set entity from client side
   $scope.customEntity = function(entity){
     $scope.entity = entity
   }
@@ -16,10 +24,26 @@ angular.module('alphaViz', [])
       return
     }
     // apply data to $scope
-    $scope.data = data
-    $scope.$apply();
-    // Access -> data[index]."fieldName"
-    console.log(data[0])
-  })
+    $scope.allData = data
+    // Access in HTML -> {{ alldata[index].fieldName }}
 
+    // filter by entity
+    $scope.entityData = data.filter(filterByEntity);
+    function filterByEntity(obj) {
+      if (obj.entity === $scope.entity)
+        return true
+      else
+        return false;
+    }
+
+    // get entity list
+    $scope.entityList = [];
+    for (var i = 0; i < data.length; i++) {
+        $scope.entityList.push(data[i].entity)
+    }
+    $scope.entityList = GetUnique($scope.entityList)  // Warning: takes 18 second to calculate
+
+    // apply on $scope
+    $scope.$apply();
+  })
 })
