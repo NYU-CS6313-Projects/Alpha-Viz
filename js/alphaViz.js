@@ -41,8 +41,8 @@ angular.module('alphaViz', [])
     for (var i = 0; i < data.length; i++) {
         $scope.entityList.push(data[i].entity)
     }
-    $scope.entityList = GetUnique($scope.entityList)  // Warning: takes 18 second to calculate
-
+    $scope.entityList = $scope.entityList.unique()
+    
     // apply on $scope
     $scope.$apply();
   })
