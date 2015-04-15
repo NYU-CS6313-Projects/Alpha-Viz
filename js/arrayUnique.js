@@ -1,14 +1,13 @@
-function GetUnique(inputArray)
+Array.prototype.unique = function()
 {
-    var outputArray = [];
-    
-    for (var i = 0; i < inputArray.length; i++)
+    var n = {},r=[];
+    for(var i = 0; i < this.length; i++) 
     {
-        if ((jQuery.inArray(inputArray[i], outputArray)) == -1)
+        if (!n[this[i]]) 
         {
-            outputArray.push(inputArray[i]);
+            n[this[i]] = true; 
+            r.push(this[i]); 
         }
     }
-   
-    return outputArray;
+    return r;
 }
