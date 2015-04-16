@@ -7,20 +7,27 @@
   <!-- add script tags to include all the .js file -->
   <script src="lib/d3/d3.min.js" charset="utf-8"></script>
   <script src="lib/angular/angular.min.js"></script>
-  <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
   <script src="js/alphaViz.js"></script>
-  <script src="js/arrayUnique.js"></script>
-<!--   // <script src="js/strategyBar.js"></script>
-  // <script src="js/stockPlot.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/strategyBar.js"></script>
+  <!-- // <script src="js/stockPlot.js"></script>
   // <script src="js/returnRate.js"></script> -->
   <style>
   /*add custom style css*/
+  .axis text {
+      font-family: sans-serif;
+      font-size: 11px;
+  }
   </style>
 </head>
 <body ng-app="alphaViz" ng-controller="MainController as alphaViz">
   <input type="text" ng-model="entity">
   <button ng-click="customEntity(entity)">Confirm</button>
   <p>Now we are checking: {{entity}}!</p>
-  All entities : {{entityList}}
+  All entities : {{entityData[0]}} {{entityData[1]}}
+  <div id="stragety">
+    <strategy-bar data="entityData"></strategy-bar>
+  </div>
+  
 </body>
 </html>

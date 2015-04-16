@@ -11,10 +11,6 @@ angular.module('alphaViz', [])
 
   // user entered entity
   $scope.entity = 'AAPL' // by default in input box
-  // set entity from client side
-  $scope.customEntity = function(entity){
-    $scope.entity = entity
-  }
 
   // load static CSV data from daily_2014_final.csv
   d3.csv(file, function(error, data){
@@ -28,7 +24,7 @@ angular.module('alphaViz', [])
     // Access in HTML -> {{ alldata[index].fieldName }}
 
     // filter by entity
-    $scope.entityData = data.filter(filterByEntity);
+    $scope.entityData = $scope.allData.filter(filterByEntity);
     function filterByEntity(obj) {
       if (obj.entity === $scope.entity)
         return true
@@ -42,6 +38,13 @@ angular.module('alphaViz', [])
         $scope.entityList.push(data[i].entity)
     }
     $scope.entityList = $scope.entityList.unique()
+
+    // set entity from client side if user does
+    $scope.customEntity = function(entity){
+      $scope.entity = entity.toUpperCase()
+      // update $scope.entityData
+      $scope.entityData = $scope.allData.filter(filterByEntity);
+    }
     
     // apply on $scope
     $scope.$apply();
