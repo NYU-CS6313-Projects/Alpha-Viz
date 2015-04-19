@@ -1,6 +1,5 @@
 // TO DO: 1. Need to solve data refresh problem (refreashed by click need to implement)
 //        2. Need to dynamic modify cretiria using slide
-
 angular.module('alphaViz')
 .directive('strategyBar', function() {
   function link(scope, element, attr) {
@@ -8,7 +7,7 @@ angular.module('alphaViz')
 
     // critieria of strategy
     // TO DO: slide to dynamic modify them
-    var sentiBar = 0.2
+    var sentiBar = 0.1
     var impactBar = 70
 
     var margin = { top: 40, right: 40, bottom: 40, left: 60 },
@@ -28,7 +27,7 @@ angular.module('alphaViz')
           .domain([new Date(data[0].date), d3.time.day.offset(new Date(data[data.length - 1].date), 1)])
           .range([0, width - margin.left - margin.right])
       var y = d3.scale.ordinal()
-          .domain([0,1])
+          .domain(["sell","buy"])
           .range([height - margin.top - margin.bottom, 0])  
       var xAxis = d3.svg.axis()
           .scale(x)
@@ -54,12 +53,19 @@ angular.module('alphaViz')
             else
               return height - margin.top - margin.bottom
           })
-          .attr('width', 1)
+          .attr('width', 3)
           .attr('height', function(data){
             if (data.avgASenti >= sentiBar && data.avgImpSc >= impactBar)
               return height - margin.top - margin.bottom
             else
               return 0
+          })
+          .style('fill', 'steelblue')
+          .on('mouseover', function() {
+            d3.select(this).style('fill', 'red')
+          })
+          .on('mouseout', function(){
+            d3.select(this).style('fill', 'steelblue')
           })
 
       svg.append('g').attr('class', 'xaxis')
