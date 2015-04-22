@@ -5,7 +5,7 @@
 //       5 - set $scope.entityList (list contains distinct entity name, for later use)
 
 angular.module('alphaViz', [])
-.controller('MainController', function($scope){
+.controller('MainController', ['$scope', function($scope){
   // config
   var file = "./data/daily_2014_final.csv"
 
@@ -49,4 +49,4 @@ angular.module('alphaViz', [])
     // apply on $scope
     $scope.$apply();
   })
-})
+}])

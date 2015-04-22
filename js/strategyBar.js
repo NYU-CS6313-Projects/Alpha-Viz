@@ -4,15 +4,16 @@ angular.module('alphaViz')
 .directive('strategyBar', function() {
   function link(scope, element, attr) {
     // D3.js code
-
+    console.log(scope)
+    console.log(scope.data)  // ???? why undefinced, but actually show in scope.data? need parse?
     // critieria of strategy
     // TO DO: slide to dynamic modify them
     var sentiBar = 0.1
     var impactBar = 70
 
-    var margin = { top: 40, right: 40, bottom: 40, left: 60 },
-        width = 1800 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+    var margin = { top: 40, right: 40, bottom: 40, left: 50 },
+        width = 1300 - margin.left - margin.right,
+        height = 250 - margin.top - margin.bottom;
     
     var svg = d3.select(element[0]).append('svg')
         .attr('width', width + margin.left + margin.right)
@@ -69,11 +70,11 @@ angular.module('alphaViz')
           })
 
       svg.append('g').attr('class', 'xaxis')
-      .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
-      .call(xAxis)
-      svg.append('g')
-      .attr('class', 'yaxis')
-      .call(yAxis)
+        .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
+        .call(xAxis)
+        svg.append('g')
+        .attr('class', 'yaxis')
+        .call(yAxis)
       
       // rotate xtext
       svg.selectAll(".xaxis text")  // select all the text elements for the xaxis
