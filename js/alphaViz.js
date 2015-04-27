@@ -10,7 +10,7 @@ angular.module('alphaViz', [])
   var file = "./data/daily_2014_final.csv"
 
   // user entered entity
-  $scope.entity = 'AAPL' // by default in input box
+  $scope.entity = 'TWTR' // by default in input box
 
   // load static CSV data from daily_2014_final.csv
   d3.csv(file, function(error, data){
