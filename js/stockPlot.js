@@ -22,7 +22,7 @@ angular.module('alphaViz')
       console.log(price)
 
       // D3 code in getStock()
-      var margin = { top: 40, right: 40, bottom: 40, left: 100 },
+      var margin = { top: 40, right: 40, bottom: 40, left: 50 },
           width = 1300 - margin.left - margin.right,
           height = 250 - margin.top - margin.bottom;
 

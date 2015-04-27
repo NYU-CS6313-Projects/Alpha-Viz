@@ -38,9 +38,11 @@
     $(function(){
       $("#ex2").slider({
         precision: 2,
-        ticks: [-0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5],
-        ticks_labels: ['-0.5', '-0.4', '-0.3', '-0.2', '-0.1', '0', '0.1', '0.2', '0.3', '0.4', '0.5']
+        ticks: [-10, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 10],
+        ticks_labels: ['-1','-0.5', '-0.4', '-0.3', '-0.2', '-0.1', '0', '0.1', '0.2', '0.3', '0.4', '0.5', '1']
       });
+
+      $("#ex3").slider({});
     })
     </script>
   </head>
@@ -75,7 +77,13 @@
             <li class="active"><a href="#">Metrics Configuration<span class="sr-only">(current)</span></a></li>
           </ul>
           <div>
-          <b>-1</b> <input id="ex2" type="text" class="span2" value="" data-slider-min="-1" data-slider-max="1" data-slider-step="0.1" data-slider-value="[0.1, 0.4]" data-slider-ticks="[-1, -0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 1]" data-slider-ticks-labels="['-1','-0.5', '-0.4', '-0.3', '-0.2', '-0.1', '0', '0.1', '0.2', '0.3', '0.4', '0.5', '+1']"/> <b>+1</b>
+          <p>Article Sentimemt</p>
+          <b>-1</b> <input id="ex2" type="text" class="span2" value="" data-slider-min="-10" data-slider-max="10" data-slider-step="1" data-slider-value="[1, 4]" data-slider-ticks="[-10, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 10]" data-slider-ticks-labels="['-1','-0.5', '-0.4', '-0.3', '-0.2', '-0.1', '0', '0.1', '0.2', '0.3', '0.4', '0.5', '1']"/> <b>+1</b>
+          </div>
+
+          <div>
+          <p>Impact Score</p>
+          <b>0</b> <input id="ex3" type="text" class="span3" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[65,80]"/> <b>100</b>
           </div>
         </div>
         <div class="col-sm-8 col-sm-offset-2 col-md-9 col-md-offset-3 main">
