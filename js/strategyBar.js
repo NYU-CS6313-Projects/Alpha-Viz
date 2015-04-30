@@ -2,11 +2,13 @@
 angular.module('alphaViz')
 .directive('strategyBar', function() {
   function link(scope, element, attr) {
-    // D3.js code
+    // --------------------------------
+    // SVG Setup
+    // --------------------------------
     var sentiBar = 0.1
     var impactBar = 0
 
-    var margin = { top: 40, right: 40, bottom: 40, left: 50 },
+    var margin = { top: 20, right: 20, bottom: 30, left: 50 },
         width = 1300 - margin.left - margin.right,
         height = 250 - margin.top - margin.bottom;
     
@@ -30,11 +32,11 @@ angular.module('alphaViz')
           .scale(y)
           .orient('left')
           .tickPadding(8)
-
-    // render based on data
+    // --------------------------------
+    // Render based on data
+    // --------------------------------
     scope.render = function(data) {
       // set domains based on data
-      console.log('haha   ---    redering' + data[0].entity)
       var start = function(data){ return data[0].date }
       var end = function(data){ return data[data.length - 1].date }
       x.domain([new Date(start(data)), d3.time.day.offset(new Date(end(data)), 1)])
@@ -81,8 +83,9 @@ angular.module('alphaViz')
             d3.select(this).style('fill', 'steelblue')
           })
     }
-
+    // --------------------------------
     // Watch 'data' and run scope.render(newVal)
+    // --------------------------------
     scope.$watch('data', function() {
       scope.render(scope.data)
     }, true)
