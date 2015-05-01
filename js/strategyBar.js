@@ -6,10 +6,10 @@ angular.module('alphaViz')
     // SVG Setup
     // --------------------------------
     var sentiBar = 0.1
-    var impactBar = 0
+    var impactBar = 60
 
     var margin = { top: 20, right: 20, bottom: 30, left: 50 },
-        width = 1300 - margin.left - margin.right,
+        width = element.context.offsetParent.offsetWidth - margin.left - margin.right,
         height = 250 - margin.top - margin.bottom;
     
     var svg = d3.select(element[0]).append('svg')
@@ -26,12 +26,13 @@ angular.module('alphaViz')
           .orient('bottom')
           .ticks(d3.time.days, 31)
           .tickFormat(d3.time.format('%x'))
-          .tickSize(3)
+          .tickSize(2)
           .tickPadding(8)
     var yAxis = d3.svg.axis()
           .scale(y)
           .orient('left')
           .tickPadding(8)
+          .tickSize(2)
     // --------------------------------
     // Render based on data
     // --------------------------------
@@ -48,9 +49,11 @@ angular.module('alphaViz')
       // X, Y
       svg.append('g').attr('class', 'xaxis')
         .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
+        .attr("style", "fill:none;stroke:black;shape-rendering: crispEdges;")
         .call(xAxis)
       svg.append('g')
         .attr('class', 'yaxis')
+        .attr("style", "fill:none;stroke:black;shape-rendering: crispEdges;")
         .call(yAxis)
       // X Axis text style
       svg.selectAll(".xaxis text")  // select all the text elements for the xaxis

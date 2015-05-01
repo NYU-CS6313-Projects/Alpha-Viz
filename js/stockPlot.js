@@ -5,7 +5,7 @@ angular.module('alphaViz')
     // SVG Setup
     // --------------------------------
     var margin = { top: 20, right: 20, bottom: 30, left: 50 },
-        width = 1300 - margin.left - margin.right,
+        width = element.context.offsetParent.offsetWidth - margin.left - margin.right,
         height = 250 - margin.top - margin.bottom;
     var svg = d3.select(element[0]).append('svg')
         .attr('width', width + margin.left + margin.right)
@@ -20,13 +20,19 @@ angular.module('alphaViz')
         .scale(x)
         .orient('bottom')
         .tickFormat(d3.time.format('%x'))
-        .tickSize(3)
+        .tickSize(2)
         .tickPadding(8)
     var yAxis = d3.svg.axis()
         .scale(y)
         .orient('left')
         .ticks(5)
+        .tickSize(2)
         .tickPadding(8)
+    // add the tooltip area to the webpage
+    var tooltip = d3.select(element[0]).append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
     // --------------------------------
     // scope.render function to refresh
     // --------------------------------
@@ -55,9 +61,11 @@ angular.module('alphaViz')
         // XY redraw
         svg.append('g').attr('class', 'xaxis')
           .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
+          .attr("style", "fill:none;stroke:black;shape-rendering: crispEdges;")
           .call(xAxis)
           svg.append('g')
           .attr('class', 'yaxis')
+          .attr("style", "fill:none;stroke:black;shape-rendering: crispEdges;")
           .call(yAxis)
         // rotate xtext
         svg.selectAll(".xaxis text")  // select all the text elements for the xaxis
@@ -71,6 +79,61 @@ angular.module('alphaViz')
         svg.append("path")
           .attr("d", valueline(price))
           .attr("style", "fill:none;stroke:steelblue;stroke-width:2;")
+        
+        // signal line and tooltip
+        svg.append("path")
+          .attr("class","mouseLine")  
+          .style("stroke","red")
+          .style("stroke-width", "1px")
+          .style("opacity", "0");
+
+        svg.append('svg:rect') // append a rect to catch mouse movements on canvas
+          .attr('width', width) // can't catch mouse events on a g element
+          .attr('height', height)
+          .attr('fill', 'none')
+          .attr('pointer-events', 'all')
+          .on('mouseout', function(){ // on mouse out hide line, circles and text
+            d3.select(".mouseLine")
+              .style("opacity", "0");
+            // d3.selectAll(".mouseCircle circle")
+            //   .style("opacity", "0");
+            // d3.selectAll(".mouseCircle text")
+            //   .style("opacity", "0");
+          })
+          .on('mouseover', function(){ // on mouse in show line, circles and text
+            d3.select(".mouseLine")
+              .style("opacity", "1");
+            //  d3.selectAll(".mouseCircle circle")
+            //   .style("opacity", "1");
+            // d3.selectAll(".mouseCircle text")
+            //   .style("opacity", "1");
+          })
+          .on('mousemove', function() { // mouse moving over canvas
+            d3.select(".mouseLine")
+            .attr("d", function(){
+              yRange = y.range(); // range of y axis
+              var xCoor = d3.mouse(this)[0]; // mouse position in x
+              var xDate = x.invert(xCoor); // date corresponding to mouse x 
+              // d3.selectAll('.mouseCircle') // for each circle group
+              //   .each(function(d,i){
+              //    var rightIdx = bisect(data[1].values, xDate); // find date in data that right off mouse
+              //    var interSect = get_line_intersection(xCoor,  // get the intersection of our vertical line and the data line
+              //       yRange[0], 
+              //       xCoor, 
+              //       yRange[1],
+              //       x(data[i].values[rightIdx-1].YEAR),
+              //       y(data[i].values[rightIdx-1].VALUE),
+              //       x(data[i].values[rightIdx].YEAR),
+              //       y(data[i].values[rightIdx].VALUE));
+              
+              //   d3.select(this) // move the circle to intersection
+              //     .attr('transform', 'translate(' + interSect.x + ',' + interSect.y + ')');
+                  
+              //   d3.select(this.children[1]) // write coordinates out
+              //     .text(xDate.toLocaleDateString() + "," + y.invert(interSect.y).toFixed(0));
+              return "M"+ xCoor +"," + yRange[0] + "L" + xCoor + "," + yRange[1]; // position vertical line
+            });
+          });
       })
     }
     // --------------------------------
