@@ -12,6 +12,8 @@ angular.module('alphaViz', [])
   // user entered entity
   $scope.entity = 'MSFT'
   $scope.entityData = []
+  $scope.sentiBar = 0.1
+  $scope.impactBar = 60
   // load static CSV data from daily_2014_final.csv
   d3.csv(file, function(error, data){
     //error check

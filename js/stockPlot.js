@@ -28,10 +28,6 @@ angular.module('alphaViz')
         .ticks(5)
         .tickSize(2)
         .tickPadding(8)
-    // add the tooltip area to the webpage
-    var tooltip = d3.select(element[0]).append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
 
     // --------------------------------
     // scope.render function to refresh
@@ -54,6 +50,7 @@ angular.module('alphaViz')
         svg.selectAll('g.xaxis').remove()
         svg.selectAll('g.yaxis').remove()
         svg.selectAll('path').remove()
+        svg.selectAll('rect').remove()
         // update domains
         x.domain([new Date("2014-01-01"), d3.time.day.offset(new Date("2015-01-01"), 1)])
         // x.domain(d3.extent(price, function(d){ return d.Date }))
@@ -87,6 +84,20 @@ angular.module('alphaViz')
           .style("stroke-width", "1px")
           .style("opacity", "0");
 
+        // invisible bar to show tip
+        var bars = svg.selectAll('rect')
+          .data(price).enter()
+          .append('rect')
+          .attr('x', function(d) { return x(new Date(d.Date)) })
+          .attr('y', function(d){
+              return y(d.Close)
+          })
+          .attr('width', 1)
+          .attr('height', function(d){
+            return height - margin.top - margin.bottom - y(d.Close)
+          })
+          .attr("style", "fill:steelblue;opacity:0.2")
+
         svg.append('svg:rect') // append a rect to catch mouse movements on canvas
           .attr('width', width) // can't catch mouse events on a g element
           .attr('height', height)
@@ -95,42 +106,16 @@ angular.module('alphaViz')
           .on('mouseout', function(){ // on mouse out hide line, circles and text
             d3.select(".mouseLine")
               .style("opacity", "0");
-            // d3.selectAll(".mouseCircle circle")
-            //   .style("opacity", "0");
-            // d3.selectAll(".mouseCircle text")
-            //   .style("opacity", "0");
           })
           .on('mouseover', function(){ // on mouse in show line, circles and text
             d3.select(".mouseLine")
               .style("opacity", "1");
-            //  d3.selectAll(".mouseCircle circle")
-            //   .style("opacity", "1");
-            // d3.selectAll(".mouseCircle text")
-            //   .style("opacity", "1");
           })
           .on('mousemove', function() { // mouse moving over canvas
             d3.select(".mouseLine")
             .attr("d", function(){
               yRange = y.range(); // range of y axis
               var xCoor = d3.mouse(this)[0]; // mouse position in x
-              var xDate = x.invert(xCoor); // date corresponding to mouse x 
-              // d3.selectAll('.mouseCircle') // for each circle group
-              //   .each(function(d,i){
-              //    var rightIdx = bisect(data[1].values, xDate); // find date in data that right off mouse
-              //    var interSect = get_line_intersection(xCoor,  // get the intersection of our vertical line and the data line
-              //       yRange[0], 
-              //       xCoor, 
-              //       yRange[1],
-              //       x(data[i].values[rightIdx-1].YEAR),
-              //       y(data[i].values[rightIdx-1].VALUE),
-              //       x(data[i].values[rightIdx].YEAR),
-              //       y(data[i].values[rightIdx].VALUE));
-              
-              //   d3.select(this) // move the circle to intersection
-              //     .attr('transform', 'translate(' + interSect.x + ',' + interSect.y + ')');
-                  
-              //   d3.select(this.children[1]) // write coordinates out
-              //     .text(xDate.toLocaleDateString() + "," + y.invert(interSect.y).toFixed(0));
               return "M"+ xCoor +"," + yRange[0] + "L" + xCoor + "," + yRange[1]; // position vertical line
             });
           });

@@ -20,6 +20,8 @@
     <link href="./lib/bootstrap/css/slider.css" rel="stylesheet">
     <link href="./lib/bootstrap/less/slider.less" rel="stylesheet">
     <script src="lib/d3/d3.min.js" charset="utf-8"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
     <script src="lib/angular/angular.min.js"></script>
     <script src="js/alphaViz.js"></script>
     <script src="js/utils.js"></script>
@@ -82,7 +84,6 @@
           <p>Article Sentimemt</p>
           <b>-1</b> <input id="ex2" type="text" class="span2" value="" data-slider-min="-10" data-slider-max="10" data-slider-step="1" data-slider-value="[1, 4]" data-slider-ticks="[-10, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 10]" data-slider-ticks-labels="['-1','-0.5', '-0.4', '-0.3', '-0.2', '-0.1', '0', '0.1', '0.2', '0.3', '0.4', '0.5', '1']"/> <b>+1</b>
           </div>
-
           <div>
           <p>Impact Score</p>
           <b>0</b> <input id="ex3" type="text" class="span3" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[65,80]"/> <b>100</b>
@@ -106,7 +107,7 @@
             <h2 class="sub-header">Strategy - Stock - Return Rate</h2>
           
             <div id="stragety">
-              <strategy-bar data="entityData"></strategy-bar>
+              <strategy-bar data="entityData" sentiBar="sentiBar" impactBar="impactBar"></strategy-bar>
             </div>
             <div id="stock">
               <stock-plot entity="entity"></stock-plot>

@@ -2,12 +2,10 @@
 angular.module('alphaViz')
 .directive('strategyBar', function() {
   function link(scope, element, attr) {
+    console.log(scope)
     // --------------------------------
     // SVG Setup
     // --------------------------------
-    var sentiBar = 0.1
-    var impactBar = 60
-
     var margin = { top: 20, right: 20, bottom: 30, left: 50 },
         width = element.context.offsetParent.offsetWidth - margin.left - margin.right,
         height = 250 - margin.top - margin.bottom;
@@ -37,6 +35,8 @@ angular.module('alphaViz')
     // Render based on data
     // --------------------------------
     scope.render = function(data) {
+      sentiBar = 0.1
+      impactBar = 60
       // set domains based on data
       var start = function(data){ return data[0].date }
       var end = function(data){ return data[data.length - 1].date }
@@ -89,13 +89,17 @@ angular.module('alphaViz')
     // --------------------------------
     // Watch 'data' and run scope.render(newVal)
     // --------------------------------
-    scope.$watch('data', function() {
-      scope.render(scope.data)
+    scope.$watch('data', function(newVals, oldVals) {
+      scope.render(newVals)
+      console.log(newVals)
     }, true)
   }
   return {
       link: link,
       restrict: 'E',
-      scope: { data: '=' }
+      scope: { data: '=',
+               sentiBar: '=',
+               impactBar: '='
+             }
   }
 })
