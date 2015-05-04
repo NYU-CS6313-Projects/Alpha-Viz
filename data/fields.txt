@@ -1,0 +1,4 @@
+event_impact_score.on_entities.0.entity
+article_sentiment
+event_impact_score.on_entities.0.on_entity
+harvested_at
