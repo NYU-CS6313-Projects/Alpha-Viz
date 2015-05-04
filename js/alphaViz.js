@@ -32,9 +32,11 @@ angular.module('alphaViz', [])
     }
     $scope.entityList = $scope.entityList.unique()
 
-    $scope.$watch("entity", function(newValue, oldValue) {
-      if (newValue.length > 0) {
-        $scope.entity = newValue.toUpperCase()
+    $scope.$watchGroup(['entity', 'sentiBar', 'impactBar'], function(newValues, oldValues) {
+      $scope.sentiBar = newValues[1]
+      $scope.impactBar = newValues[2]
+      if (newValues[0].length > 0) {
+        $scope.entity = newValues[0].toUpperCase()
         // filter by entity
         $scope.entityData = $scope.allData.filter(filterByEntity);
         function filterByEntity(obj) {
@@ -44,6 +46,8 @@ angular.module('alphaViz', [])
             return false;
         }
       }
+      else
+        alert("Stock symbol cannot be empty, please enter the correct symbol.")
     })
     // apply on $scope
     $scope.$apply();
