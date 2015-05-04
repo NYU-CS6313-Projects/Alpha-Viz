@@ -39,7 +39,15 @@ angular.module('alphaViz')
       console.log("render func called")
       sentiBar = 0.1
       impactBar = 60
-      // // set domains based on data
+      // add graph title
+      svg.selectAll('text').remove()
+      svg.append("text")
+              .attr("x", (width / 2))             
+              .attr("y", 0 - (margin.top / 2 - 7))
+              .attr("text-anchor", "middle")  
+              .style("font-size", "16px")  
+              .text(data[0].entity)
+      // set domains based on data
       var start = function(data){ return data[0].date }
       var end = function(data){ return data[data.length - 1].date }
       x.domain([new Date(start(data)), d3.time.day.offset(new Date(end(data)), 1)])

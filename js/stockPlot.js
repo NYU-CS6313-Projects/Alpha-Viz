@@ -33,6 +33,14 @@ angular.module('alphaViz')
     // scope.render function to refresh
     // --------------------------------
     scope.render = function(entity) {
+      // add graph title
+      svg.selectAll('text').remove()
+      svg.append("text")
+              .attr("x", (width / 2))             
+              .attr("y", 0 - (margin.top / 2 - 7))
+              .attr("text-anchor", "middle")  
+              .style("font-size", "16px")  
+              .text(entity)
       // get the stock price
       var symbol = entity
       // query YQL
