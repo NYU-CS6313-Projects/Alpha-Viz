@@ -1,0 +1,71 @@
+Project Instruction
+
+1.	Project Overview
+
+Alpha-Viz is a handy and well-visualized diagnostic tools for testing and tuning investor’s machine learning algorithms or data streams in a more efficient and interactive way based on financial news.
+It can directly see your max return based on the original investment and given strategy. It also shows details about key metrics of articles/stories on a specific trading day. Lastly, Alpha-Viz provides an overview of one specific strategy applied on multiple companies the user wishes to observe. All these features make it a great companion for investment managers.
+
+2.	System Overview
+
+For the first version of our application, we set up the logic and let the real data load successfully for display. So far, the system includes:
+•	1 controller to load csv data
+We create a MainController to load daily_2014_final.csv
+•	4 scope variables:
+$scope.entity to store current entity that the user selects, default as “AAPL”
+$scope.allData to store all data from .csv file
+$scope.entityData to store data for 1 specific entity based on $scope.entity
+$scope.entityList to store a list of all the entities for later performance optimization
+•	3 directives to display 3 key charts of Alpha-Viz
+•	strategyBar is defined to dynamically show strategy based on article sentiment and impact score
+•	stockPlot is defined to show daily stock prices throughout a year for a given company
+•	returnRate is defined to show the daily return rate of the strategy
+•	To make data responsive to user request
+We are using a text input box and a confirm button to trigger entity update. We output the first two object of data in the browser, which can easily show that the entity data updated as the user requested in the input box.
+•	Visualize with D3.js
+•	Visual Encoding:
+strategy is derived by avgAsenti and avgImpSc:
+strategy = 1 when avgAsenti >= 0.1 and avgImpSc >= 70;
+strategy = 0 when avgAsenti < 0.1 and avgImpSc < 70
+
+strategies (Derived by avgAsenti and avgImpSc) is visualized as lines(bars)
+•	x - position to indicate date
+•	y - position to indicate buy/sell
+•	color - indicate signal position	
+stock prices	is visualized as points.
+•	x - position to indicate date
+•	y - position to indicate price
+•	color - indicate signal position	
+return rates is visualized as points
+•	x - position to indicate date
+• y - position to indicate return rate
+• color - indicate signal position
+
+3.	Calculating Alpha
+
+The equation to calculate Alpha is:
+α = Rp -[Rf + (Rm-Rf)*]
+Where:
+α = Alpha
+Rp = Realized return of portfolio (Final Portfolio Value - Initial Portfolio Value)/Initial Portfolio Value
+Rm = Market return (Final Aggregate Market Value - Initial Aggregate Market Value)/Initial Aggregate Market Value
+Rf = Risk-free rate of return (ex. Treasury bill rate of return)
+
+And Beta (β) is the measure of the risk arising from exposure to general market movements.
+
+4.	User Guideline
+
+Alpha-Viz contains:
+•	Buy/Sell Decision Bar Chart
+  o Decision: the trading strategy, when to buy or sell
+  o	By date
+•	Actual Stock Price Chart
+•	Return Rate Chart
+•	Overview
+  o	Initial Capital can be edited
+  o	Alpha indicates total alpha
+  o	Total Return is computed automatically
+•	Insight
+  o	Indicates all related metrics of current financial news
+•	Overview of Strategy on Multiple Companies
+
+We use a basic Bootstrap theme to create a dashboard for Alpha-Viz to make it more user-friendly. Alpha-Viz has a sidebar to enter Stock Symbol and dynamically configure Average Article Sentiment and Average Impact Score that will allow the user to indicate the sentiment, saturation, and impact score desired in their query of stocks. It also contains a chart display area Insight on the right to show the Strategy-Stock-Return Rate and corresponding alpha. There is a dynamic line across multiple coordinate panels to indicate appropriate times to buy or sell the given stock.
