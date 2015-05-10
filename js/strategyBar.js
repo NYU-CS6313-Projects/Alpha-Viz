@@ -1,9 +1,10 @@
-// TO DO: Need to dynamic modify cretiria using slide
 angular.module('alphaViz')
 .directive('strategyBar', function() {
   function link(scope, element, attrs) {
-    // attrs.$observe('key', function(value){  console.log('key=', value); })
-
+    // console.log(attrs.data)
+    // console.log(attrs.senti)
+    // console.log(attrs.impact)
+    
     // --------------------------------
     // SVG Setup
     // --------------------------------
@@ -35,10 +36,9 @@ angular.module('alphaViz')
     // --------------------------------
     // Render based on data
     // --------------------------------
-    scope.render = function(data) {
-      console.log("render func called")
-      sentiBar = 0.1
-      impactBar = 60
+    scope.render = function(data, senti, impact) {
+      sentiBar = senti
+      impactBar = impact
       // add graph title
       svg.selectAll('text').remove()
       svg.append("text")
@@ -96,17 +96,16 @@ angular.module('alphaViz')
             d3.select(this).style('fill', 'steelblue')
           })
     }
-    // --------------------------------
-    // Watch 'data' and run scope.render(newVal)
-    // --------------------------------
-    scope.$watch('data', function(newVals, oldVals) {
-      scope.render(newVals)
-      console.log(newVals)
+    // -----------------------------------------------------------
+    // Watch 'data', 'senti', 'impact' and run scope.render(x,y,z)
+    // -----------------------------------------------------------
+    scope.$watchGroup(['data', 'senti', 'impact'], function(newVals, oldVals) {
+      scope.render(newVals[0], newVals[1], newVals[2])
     }, true)
   }
   return {
       link: link,
       restrict: 'E',
-      scope: { data: '=', sentiBar: '@', impactBar: '@' }
+      scope: { data: '=', senti: '=', impact: '='}
   }
 })
