@@ -22,6 +22,7 @@
     <script src="js/utils.js"></script>
     <script src="js/strategyBar.js"></script>
     <script src="js/stockPlot.js"></script>
+    <script src="js/returnRate.js"></script>
     
     <style>
     /*add custom style css*/
@@ -98,7 +99,10 @@
             </div>
             <div id="stock">
               <stock-plot entity="entity"></stock-plot>
-            </div>  
+            </div>
+            <div id="return">
+              <return-rate data="entityData" senti="sentiBar" impact="impactBar" entity="entity"></return-rate>
+            </div>
           </div>
 
         </div>

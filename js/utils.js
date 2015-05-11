@@ -67,3 +67,13 @@ getStock({ stock: 'AAPL', startDate: '2013-01-01', endDate: '2013-01-05' }, 'his
     console.log(data);
 });
 */
+
+function insert(arr, in_date, in_capital, in_invested, in_numShare, in_sharePrice) {
+    arr.push({
+        date: in_date,
+        capital: in_rate,
+        invested: in_invested,
+        numShare: in_numShare,
+        sharePrice: in_sharePrice
+    });        
+}
