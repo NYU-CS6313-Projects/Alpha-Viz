@@ -1,10 +1,6 @@
 angular.module('alphaViz')
 .directive('strategyBar', function() {
   function link(scope, element, attrs) {
-    // console.log(attrs.data)
-    // console.log(attrs.senti)
-    // console.log(attrs.impact)
-    
     // --------------------------------
     // SVG Setup
     // --------------------------------
@@ -17,6 +13,8 @@ angular.module('alphaViz')
         .attr('height', height + margin.top + margin.bottom)
       .append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+  
 
     var x = d3.time.scale().range([0, width - margin.left - margin.right])
     var y = d3.scale.ordinal().range([height - margin.top - margin.bottom, 0]) 
@@ -37,8 +35,6 @@ angular.module('alphaViz')
     // Render based on data
     // --------------------------------
     scope.render = function(data, senti, impact) {
-      sentiBar = senti
-      impactBar = impact
       // add graph title
       svg.selectAll('text').remove()
       svg.append("text")
@@ -70,20 +66,21 @@ angular.module('alphaViz')
         .attr("transform", function(d) {
            return "translate(" + this.getBBox().height*-2 + "," + this.getBBox().height*+1.5 + ")rotate(-45)";
        })
+
       // Draw bar
       var bars = svg.selectAll('rect')
           .data(data).enter()
           .append('rect')
           .attr('x', function(data) { return x(new Date(data.date)) })
           .attr('y', function(data){
-            if (data.avgASenti >= sentiBar && data.avgImpSc >= impactBar)
+            if (data.avgASenti >= senti && data.avgImpSc >= impact)
               return 0
             else
               return height - margin.top - margin.bottom
           })
           .attr('width', 3)
           .attr('height', function(data){
-            if (data.avgASenti >= sentiBar && data.avgImpSc >= impactBar)
+            if (data.avgASenti >= senti && data.avgImpSc >= impact)
               return height - margin.top - margin.bottom
             else
               return 0
