@@ -76,11 +76,13 @@ angular.module('alphaViz')
             .attr('dy', '0.99em')
             .style('text-anchor', 'end')
             .text("Price")
-        // rotate xtext
+        // X Axis text style
         svg.selectAll(".xaxis text")  // select all the text elements for the xaxis
+          .attr('style', "fill:black")
           .attr("transform", function(d) {
-             return "translate(" + this.getBBox().height*-2 + "," + this.getBBox().height*+1.5 + ")rotate(-45)";
-          });
+             return "translate(" + this.getBBox().height*-3.5 + "," + this.getBBox().height*+3 + ")rotate(-45)";
+         })
+
         // path redraw
         var valueline = d3.svg.line()
           .x(function(d) { return x(d.Date) })
