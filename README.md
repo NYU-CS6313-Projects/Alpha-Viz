@@ -16,7 +16,7 @@ Alpha-Viz is a handy and well-visualized diagnostic tools for testing and tuning
 We use a basic Bootstrap theme to create a dashboard for Alpha-Viz to make it more user-friendly. Alpha-Viz has a sidebar to enter Stock Symbol and dynamically configure Average Article Sentiment and Average Impact Score that will allow the user to indicate the sentiment, saturation, and impact score desired in their query of stocks. It also contains a chart display area Insight on the right to show the Strategy-Stock-Return Rate and corresponding alpha. There is a dynamic line across multiple coordinate panels to indicate appropriate times to buy or sell the given stock.
 
 Demo: [Alpha-Viz](http://nyu-cs6313-projects.github.io/Alpha-Viz) 
-Demo Video: [Alpha-Viz Video](https://vimeo.com/126831903)
+Demo Video: [Alpha-Viz Video](https://vimeo.com/128126348)
 
 Team member:  
 
